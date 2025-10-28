@@ -4,16 +4,170 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>🎵 רשימת השירים שלי</title>
-  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      background: linear-gradient(135deg, #e0f7fa, #e1bee7);
+      margin: 0;
+      padding: 0;
+      direction: rtl;
+      text-align: center;
+    }
+
+    header {
+      background: #6a1b9a;
+      color: white;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    header h1 {
+      font-size: 2em;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    header h1 span {
+      font-size: 1.5em;
+    }
+
+    #loginBtn {
+      background-color: #8e24aa;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 10px 20px;
+      margin-top: 15px;
+      cursor: pointer;
+      font-size: 1em;
+      transition: 0.3s;
+    }
+
+    #loginBtn:hover {
+      background-color: #ab47bc;
+    }
+
+    main {
+      margin: 30px auto;
+      max-width: 900px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .card {
+      background-color: white;
+      border-radius: 15px;
+      width: 260px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      padding: 20px;
+      transition: 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+    }
+
+    .card h3 {
+      margin: 0 0 10px;
+      color: #6a1b9a;
+    }
+
+    audio {
+      width: 100%;
+      outline: none;
+    }
+
+    input[type="text"] {
+      width: 90%;
+      padding: 6px;
+      margin-bottom: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    button.saveBtn {
+      background-color: #6a1b9a;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 5px 10px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button.saveBtn:hover {
+      background-color: #8e24aa;
+    }
+
+    /* מודל התחברות */
+    .modal {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 25px;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      width: 300px;
+    }
+
+    .modal-content input {
+      width: 80%;
+      padding: 8px;
+      margin: 5px 0;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    .modal-content button {
+      margin-top: 10px;
+      padding: 8px 12px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+    }
+
+    #loginSubmit {
+      background-color: #6a1b9a;
+      color: white;
+    }
+
+    #closeModal {
+      background-color: #ccc;
+      color: black;
+      margin-right: 10px;
+    }
+  </style>
 </head>
 <body>
+
   <header>
-    <h1>🎵 רשימת השירים שלי</h1>
+    <h1><span>🎵</span> רשימת השירים שלי</h1>
     <button id="loginBtn">כניסה / הרשמה</button>
   </header>
 
   <main id="songsContainer">
-    <!-- הכרטיסים ייווצרו כאן -->
+    <!-- כאן נציג את רשימת השירים -->
   </main>
 
   <!-- חלון התחברות -->
@@ -22,11 +176,87 @@
       <h2>התחברות</h2>
       <input type="text" id="email" placeholder="מייל" />
       <input type="password" id="password" placeholder="סיסמה" />
+      <br>
       <button id="loginSubmit">כניסה</button>
       <button id="closeModal">ביטול</button>
     </div>
   </div>
 
-  <script src="script.js"></script>
+  <script>
+    const ADMIN_EMAIL = "i0527685490";
+    const ADMIN_PASS = "334763356";
+    let isLoggedIn = false;
+
+    const songs = [
+      { name: "שיר 1", file: "audio/song1.mp3" },
+      { name: "שיר 2", file: "audio/song2.mp3" },
+      { name: "שיר 3", file: "audio/song3.mp3" }
+    ];
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const loginBtn = document.getElementById("loginBtn");
+      const modal = document.getElementById("loginModal");
+      const loginSubmit = document.getElementById("loginSubmit");
+      const closeModal = document.getElementById("closeModal");
+
+      loginBtn.addEventListener("click", () => modal.classList.remove("hidden"));
+      closeModal.addEventListener("click", () => modal.classList.add("hidden"));
+
+      loginSubmit.addEventListener("click", () => {
+        const email = document.getElementById("email").value.trim();
+        const pass = document.getElementById("password").value.trim();
+
+        if (email === ADMIN_EMAIL && pass === ADMIN_PASS) {
+          isLoggedIn = true;
+          modal.classList.add("hidden");
+          loginBtn.textContent = "מחובר ✅";
+          renderSongs();
+        } else {
+          alert("שגיאת התחברות!");
+        }
+      });
+
+      renderSongs();
+    });
+
+    function renderSongs() {
+      const container = document.getElementById("songsContainer");
+      container.innerHTML = "";
+
+      songs.forEach((song, i) => {
+        const card = document.createElement("div");
+        card.className = "card";
+
+        if (isLoggedIn) {
+          const input = document.createElement("input");
+          input.type = "text";
+          input.value = song.name;
+          input.addEventListener("input", e => song.name = e.target.value);
+
+          const saveBtn = document.createElement("button");
+          saveBtn.textContent = "שמור";
+          saveBtn.className = "saveBtn";
+          saveBtn.addEventListener("click", () => {
+            alert(`השם נשמר: ${song.name}`);
+          });
+
+          card.appendChild(input);
+          card.appendChild(saveBtn);
+        } else {
+          const title = document.createElement("h3");
+          title.textContent = song.name;
+          card.appendChild(title);
+        }
+
+        const audio = document.createElement("audio");
+        audio.controls = true;
+        audio.src = song.file;
+        card.appendChild(audio);
+
+        container.appendChild(card);
+      });
+    }
+  </script>
+
 </body>
 </html>
