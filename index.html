@@ -1,262 +1,171 @@
 <!DOCTYPE html>
-<html lang="he">
+<html lang="he" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>🎵 רשימת השירים שלי</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, sans-serif;
-      background: linear-gradient(135deg, #e0f7fa, #e1bee7);
-      margin: 0;
-      padding: 0;
-      direction: rtl;
-      text-align: center;
-    }
-
-    header {
-      background: #6a1b9a;
-      color: white;
-      padding: 20px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    }
-
-    header h1 {
-      font-size: 2em;
-      margin: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-    }
-
-    header h1 span {
-      font-size: 1.5em;
-    }
-
-    #loginBtn {
-      background-color: #8e24aa;
-      color: white;
-      border: none;
-      border-radius: 10px;
-      padding: 10px 20px;
-      margin-top: 15px;
-      cursor: pointer;
-      font-size: 1em;
-      transition: 0.3s;
-    }
-
-    #loginBtn:hover {
-      background-color: #ab47bc;
-    }
-
-    main {
-      margin: 30px auto;
-      max-width: 900px;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 20px;
-    }
-
-    .card {
-      background-color: white;
-      border-radius: 15px;
-      width: 260px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      padding: 20px;
-      transition: 0.3s;
-    }
-
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-    }
-
-    .card h3 {
-      margin: 0 0 10px;
-      color: #6a1b9a;
-    }
-
-    audio {
-      width: 100%;
-      outline: none;
-    }
-
-    input[type="text"] {
-      width: 90%;
-      padding: 6px;
-      margin-bottom: 10px;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-    }
-
-    button.saveBtn {
-      background-color: #6a1b9a;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      padding: 5px 10px;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
-    button.saveBtn:hover {
-      background-color: #8e24aa;
-    }
-
-    /* מודל התחברות */
-    .modal {
-      position: fixed;
-      top: 0;
-      right: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.5);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .hidden {
-      display: none;
-    }
-
-    .modal-content {
-      background: white;
-      padding: 25px;
-      border-radius: 12px;
-      text-align: center;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-      width: 300px;
-    }
-
-    .modal-content input {
-      width: 80%;
-      padding: 8px;
-      margin: 5px 0;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-    }
-
-    .modal-content button {
-      margin-top: 10px;
-      padding: 8px 12px;
-      border-radius: 8px;
-      border: none;
-      cursor: pointer;
-    }
-
-    #loginSubmit {
-      background-color: #6a1b9a;
-      color: white;
-    }
-
-    #closeModal {
-      background-color: #ccc;
-      color: black;
-      margin-right: 10px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>הנגן הסודי של גוצ'י</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            text-align: center;
+            padding: 20px;
+        }
+        .player-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #008000; /* שינוי צבע לכותרת החדשה */
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .search-bar {
+            display: flex;
+            margin-bottom: 20px;
+            gap: 10px;
+        }
+        .search-bar input {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            text-align: right;
+        }
+        .search-bar button {
+            padding: 10px 15px;
+            background-color: #008000;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .search-bar button:hover {
+            background-color: #006400;
+        }
+        .song-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .song-item:last-child {
+            border-bottom: none;
+        }
+        .song-title {
+            flex-grow: 1;
+            text-align: right;
+            padding-right: 15px;
+            font-weight: bold;
+        }
+        audio {
+            width: 100%;
+            max-width: 300px;
+        }
+        @media (max-width: 600px) {
+            .song-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .song-title {
+                padding-bottom: 8px;
+            }
+            audio {
+                width: 100%;
+                margin-top: 5px;
+            }
+            .search-bar {
+                flex-direction: column;
+            }
+            .search-bar button {
+                width: 100%;
+                margin-top: 5px;
+            }
+        }
+    </style>
 </head>
 <body>
 
-  <header>
-    <h1><span>🎵</span> רשימת השירים שלי</h1>
-    <button id="loginBtn">כניסה / הרשמה</button>
-  </header>
+    <div class="player-container">
+        <h1>הנגן הסודי של גוצ'י</h1>
 
-  <main id="songsContainer">
-    <!-- כאן נציג את רשימת השירים -->
-  </main>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="חיפוש שיר...">
+            <button onclick="performSearch()">חפש</button>
+        </div>
 
-  <!-- חלון התחברות -->
-  <div id="loginModal" class="modal hidden">
-    <div class="modal-content">
-      <h2>התחברות</h2>
-      <input type="text" id="email" placeholder="מייל" />
-      <input type="password" id="password" placeholder="סיסמה" />
-      <br>
-      <button id="loginSubmit">כניסה</button>
-      <button id="closeModal">ביטול</button>
+        <div id="playlist">
+            </div>
     </div>
-  </div>
 
-  <script>
-    const ADMIN_EMAIL = "i0527685490";
-    const ADMIN_PASS = "334763356";
-    let isLoggedIn = false;
+    <script>
+        const songs = [
+            { title: "לפני אחרי", url: "https://s3.prog.co.il/data/audio/2116/2116946-2dfb9ceed3c6ec0c02102e56b0ff335b.mp3" },
+            { title: "טאטי", url: "https://s3.prog.co.il/data/audio/2116/2116948-733aec1e4b299f895ad2d331e9e9b01c.mp3" },
+            { title: "עם החברותא", url: "https://s3.prog.co.il/data/audio/2116/2116951-ae16496b7af4b9ba74648efcab39a76e.mp3" },
+            { title: "שקיעה", url: "https://s3.prog.co.il/data/audio/2116/2116960-a8ac83f57f98ab84cc7a688c7c8fd069.mp3" },
+            { title: "אלאבבאלה", url: "https://s3.prog.co.il/data/audio/2116/2116963-f31111d5bf6ef06c00d7ff1be80598cd.mp3" },
+            { title: "פנתרים שחורים", url: "https://s3.prog.co.il/data/audio/2116/2116964-abc2027e5a4ead09df6e4f3ee29f45ea.mp3" },
+            { title: "רשימת תלונות", url: "https://s3.prog.co.il/data/audio/2116/2116966-e3a2970b881a8526dc6daf8154f5124b.mp3" },
+            { title: "חרבו דרבו", url: "https://s3.prog.co.il/data/audio/2116/2116968-a9d3453ea3b44f664758b69d6af8eb38.mp3" },
+            { title: "מבחנים", url: "https://s3.prog.co.il/data/audio/2116/2116970-d18d2fe6d480e6cc55d0a05d4a64dc16.mp3" },
+            { title: "תמות תמות", url: "https://s3.prog.co.il/data/audio/2116/2116978-bf80a887a0f980ea4b337a8e8b2a8825.mp3" },
+            { title: "סוף הזמן", url: "https://s3.prog.co.il/data/audio/2116/2116975-2f8e47c564eff1eecb8af9186a1a7f22.mp3" }
+        ];
 
-    const songs = [
-      { name: "שיר 1", file: "audio/song1.mp3" },
-      { name: "שיר 2", file: "audio/song2.mp3" },
-      { name: "שיר 3", file: "audio/song3.mp3" }
-    ];
+        const playlist = document.getElementById('playlist');
 
-    document.addEventListener("DOMContentLoaded", () => {
-      const loginBtn = document.getElementById("loginBtn");
-      const modal = document.getElementById("loginModal");
-      const loginSubmit = document.getElementById("loginSubmit");
-      const closeModal = document.getElementById("closeModal");
+        function renderPlaylist(songList) {
+            playlist.innerHTML = ''; // ניקוי רשימה קיימת
+            songList.forEach(song => {
+                const songItem = document.createElement('div');
+                songItem.classList.add('song-item');
 
-      loginBtn.addEventListener("click", () => modal.classList.remove("hidden"));
-      closeModal.addEventListener("click", () => modal.classList.add("hidden"));
+                const title = document.createElement('div');
+                title.classList.add('song-title');
+                title.textContent = song.title;
 
-      loginSubmit.addEventListener("click", () => {
-        const email = document.getElementById("email").value.trim();
-        const pass = document.getElementById("password").value.trim();
+                const audioPlayer = document.createElement('audio');
+                audioPlayer.controls = true;
+                audioPlayer.src = song.url;
+                audioPlayer.preload = 'none';
 
-        if (email === ADMIN_EMAIL && pass === ADMIN_PASS) {
-          isLoggedIn = true;
-          modal.classList.add("hidden");
-          loginBtn.textContent = "מחובר ✅";
-          renderSongs();
-        } else {
-          alert("שגיאת התחברות!");
-        }
-      });
-
-      renderSongs();
-    });
-
-    function renderSongs() {
-      const container = document.getElementById("songsContainer");
-      container.innerHTML = "";
-
-      songs.forEach((song, i) => {
-        const card = document.createElement("div");
-        card.className = "card";
-
-        if (isLoggedIn) {
-          const input = document.createElement("input");
-          input.type = "text";
-          input.value = song.name;
-          input.addEventListener("input", e => song.name = e.target.value);
-
-          const saveBtn = document.createElement("button");
-          saveBtn.textContent = "שמור";
-          saveBtn.className = "saveBtn";
-          saveBtn.addEventListener("click", () => {
-            alert(`השם נשמר: ${song.name}`);
-          });
-
-          card.appendChild(input);
-          card.appendChild(saveBtn);
-        } else {
-          const title = document.createElement("h3");
-          title.textContent = song.name;
-          card.appendChild(title);
+                songItem.appendChild(title);
+                songItem.appendChild(audioPlayer);
+                playlist.appendChild(songItem);
+            });
         }
 
-        const audio = document.createElement("audio");
-        audio.controls = true;
-        audio.src = song.file;
-        card.appendChild(audio);
+        // פונקציה לביצוע חיפוש (כעת רק מציגה הודעה בקונסול)
+        function performSearch() {
+            const searchText = document.getElementById('searchInput').value.toLowerCase();
+            
+            // לוגיקת חיפוש פשוטה: סינון השירים ששמם מכיל את טקסט החיפוש
+            const filteredSongs = songs.filter(song => 
+                song.title.toLowerCase().includes(searchText)
+            );
 
-        container.appendChild(card);
-      });
-    }
-  </script>
+            renderPlaylist(filteredSongs);
+
+            // אם רוצים להוסיף הודעה למשתמש
+            if (searchText === "") {
+                console.log("הוצגה כל הרשימה.");
+            } else {
+                console.log(`בוצע חיפוש עבור: ${searchText}. נמצאו ${filteredSongs.length} שירים.`);
+            }
+        }
+
+        // טען את הרשימה המלאה בהתחלה
+        renderPlaylist(songs);
+    </script>
 
 </body>
 </html>
